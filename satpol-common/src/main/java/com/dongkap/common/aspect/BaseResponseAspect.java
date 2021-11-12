@@ -35,7 +35,7 @@ public class BaseResponseAspect {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@Around("execution(org.springframework.http.ResponseEntity<com.dongkap.common.http.ApiBaseResponse> *(..)) && "
+	@Around("execution(org.springframework.http.ResponseEntity<com.dongkap.dto.common.ApiBaseResponse> *(..)) && "
 			+ "@annotation(com.dongkap.common.aspect.ResponseSuccess)")
     public ResponseEntity<ApiBaseResponse> doBaseResponseSuccess(ProceedingJoinPoint pjp) throws Throwable {
 		ResponseEntity<ApiBaseResponse> result = extracted(pjp);

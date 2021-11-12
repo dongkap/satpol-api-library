@@ -20,13 +20,13 @@ public class BearerRequestInterceptor implements RequestInterceptor {
 	
 	private FeignSignatureInterceptor feignSignatureInterceptor;
 
-	@Value("${bcaf.signature.param-key}")
+	@Value("${dongkap.signature.param-key}")
 	private String paramKey;
 
-	@Value("${bcaf.signature.param-timestamp}")
+	@Value("${dongkap.signature.param-timestamp}")
 	private String paramTimestamp;
 
-	@Value("${bcaf.signature.param-signature}")
+	@Value("${dongkap.signature.param-signature}")
 	private String paramSignature;
 	
 	public BearerRequestInterceptor() {}
