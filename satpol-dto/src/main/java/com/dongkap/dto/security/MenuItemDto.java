@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dongkap.dto.common.BaseAuditDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,17 +24,14 @@ public class MenuItemDto extends BaseAuditDto {
 	private static final long serialVersionUID = -1056030686541157137L;
 	private String id;
 	private String code;
-	@JsonProperty("name")
 	private String title;
 	private String icon;
-	@JsonProperty("url")
     private String link;
     private String type;
 	private Integer level;
     private Integer ordering;
     private String orderingStr;
     private Boolean home = false;
-	@JsonProperty("title")
     private Boolean group = false;
     private Boolean leaf = false;
     private Map<String, String> i18n = new HashMap<String, String>();
