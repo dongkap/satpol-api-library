@@ -13,17 +13,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class ProfileDto extends BaseAuditDto {
+public class PersonalInfoDto extends BaseAuditDto {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1742415621743889509L;
-	private String username;
-	private String name;
-	private String email;
-	private String image;
-	private ContactUserDto contact;
-	private PersonalInfoDto personalInfo;
+	private String idNumber;
+	private Integer age;
+	private String genderCode;
+	private String genderValue;
+	private String placeOfBirth;
+	private String dateOfBirth;
+	private Double height;
+	private Double weight;
 
 }

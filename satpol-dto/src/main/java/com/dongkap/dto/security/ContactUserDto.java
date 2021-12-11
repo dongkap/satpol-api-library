@@ -13,17 +13,24 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class ProfileDto extends BaseAuditDto {
+public class ContactUserDto extends BaseAuditDto {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1742415621743889509L;
-	private String username;
-	private String name;
-	private String email;
-	private String image;
-	private ContactUserDto contact;
-	private PersonalInfoDto personalInfo;
+	private String phoneNumber;
+	private String address;
+	private String country;
+	private String countryCode;
+	private String province;
+	private String provinceCode;
+	private String city;
+	private String cityCode;
+	private String district;
+	private String districtCode;
+	private String subDistrict;
+	private String subDistrictCode;
+	private String zipcode;
 
 }
