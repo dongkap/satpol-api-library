@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.servlet.Filter;
+import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +21,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.dongkap.common.exceptions.SystemErrorException;
 import com.dongkap.common.security.SignatureEncrypt;
@@ -40,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class SignatureInterceptor implements Filter {
+public class SignatureInterceptor extends OncePerRequestFilter {
 
 	protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
@@ -75,53 +73,52 @@ public class SignatureInterceptor implements Filter {
 
     public SignatureInterceptor() {}
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
-        String hashMessage = "";
-        
-        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) &&
-    		StringUtils.containsIgnoreCase(request.getHeader("Authorization"), "bearer")) {
-        	try {
-        		if(request.getHeader(this.paramKey) == null
-        				&& request.getHeader(this.paramTimestamp) == null
-        				&& request.getHeader(this.paramSignature) == null)
-    				throw new SystemErrorException(ErrorCode.ERR_UNAUTHORIZED);
-            	if(!request.getHeader(this.paramKey).equals(publicKey))
-    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPKEY);
-            	try {
-            		setDatenow(DateUtil.formatDate(new Date(Long.valueOf(request.getHeader(this.paramTimestamp)) * 1000), DateUtil.DEFAULT_FORMAT_DATE));
-    			} catch (Exception e) {
-    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPTIMESTAMP);
-    			}
-        		message = 	request.getHeader(this.paramKey) + ":" + 
-							request.getHeader(this.paramTimestamp) + ":" +
-							request.getRequestURI()  + ":" +
-							request.getHeader("Authorization").replaceAll("(?i)bearer ", "");
-        		hashMessage = SignatureEncrypt.getInstance().hash(this.privateKey, message);
-        		if(!hashMessage.equals(request.getHeader(this.paramSignature)))
-    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPSIGNATURE);
-        		chain.doFilter(req, res);
-			} catch (SystemErrorException e) {
-				LOGGER.error("Plain Text Signature : {}", message);
-				LOGGER.error("Signature Header : {} , Signature Server : {}", request.getHeader(this.paramSignature), hashMessage);
-				response.getWriter().write(unauthorized(e.getErrorCode(), request));
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			} catch (Exception e) {
-				LOGGER.error("Signature Header : {} , Exception : {}", request.getHeader(this.paramSignature), e);
-				response.getWriter().write(unauthorized(ErrorCode.ERR_UNAUTHORIZED, request));
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			}
-        }else
-        	chain.doFilter(req, res);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+	    if (request.getDispatcherType() == DispatcherType.ASYNC) {
+	        String hashMessage = "";
+	        
+	        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) &&
+	    		StringUtils.containsIgnoreCase(request.getHeader("Authorization"), "bearer")) {
+	        	try {
+	        		if(request.getHeader(this.paramKey) == null
+	        				&& request.getHeader(this.paramTimestamp) == null
+	        				&& request.getHeader(this.paramSignature) == null)
+	    				throw new SystemErrorException(ErrorCode.ERR_UNAUTHORIZED);
+	            	if(!request.getHeader(this.paramKey).equals(publicKey))
+	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPKEY);
+	            	try {
+	            		setDatenow(DateUtil.formatDate(new Date(Long.valueOf(request.getHeader(this.paramTimestamp)) * 1000), DateUtil.DEFAULT_FORMAT_DATE));
+	    			} catch (Exception e) {
+	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPTIMESTAMP);
+	    			}
+	        		message = 	request.getHeader(this.paramKey) + ":" + 
+								request.getHeader(this.paramTimestamp) + ":" +
+								request.getRequestURI()  + ":" +
+								request.getHeader("Authorization").replaceAll("(?i)bearer ", "");
+	        		hashMessage = SignatureEncrypt.getInstance().hash(this.privateKey, message);
+	        		if(!hashMessage.equals(request.getHeader(this.paramSignature)))
+	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPSIGNATURE);
+	        		filterChain.doFilter(request, response);
+				} catch (SystemErrorException e) {
+					LOGGER.error("Plain Text Signature : {}", message);
+					LOGGER.error("Signature Header : {} , Signature Server : {}", request.getHeader(this.paramSignature), hashMessage);
+					response.getWriter().write(unauthorized(e.getErrorCode(), request));
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+				} catch (Exception e) {
+					LOGGER.error("Signature Header : {} , Exception : {}", request.getHeader(this.paramSignature), e);
+					response.getWriter().write(unauthorized(ErrorCode.ERR_UNAUTHORIZED, request));
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+				}
+	        }else
+	        	filterChain.doFilter(request, response);
+	    } else {
+	        super.doFilter(request, response, filterChain);
+	    }
     }
-
-    @Override
-    public void init(FilterConfig filterConfig) {}
 
     @Override
     public void destroy() {}
