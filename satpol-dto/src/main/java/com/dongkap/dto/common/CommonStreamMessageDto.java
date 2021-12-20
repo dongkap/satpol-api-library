@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CommonMessageDto implements Serializable {
+public class CommonStreamMessageDto implements Serializable {
 
 	/**
 	 * 
