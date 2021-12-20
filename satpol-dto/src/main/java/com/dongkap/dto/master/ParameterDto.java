@@ -17,6 +17,6 @@ public class ParameterDto extends ParameterGroupDto {
 	 * 
 	 */
 	private static final long serialVersionUID = -8125190677227153892L;
-	private String parameterCode;
+	protected String parameterCode;
 
 }

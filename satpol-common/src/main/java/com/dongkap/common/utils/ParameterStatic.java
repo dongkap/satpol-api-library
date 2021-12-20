@@ -3,5 +3,8 @@ package com.dongkap.common.utils;
 public final class ParameterStatic {
 
 	public static final String MONTH_PARAMETER = "MONTH.";
+	public static final String INSERT_DATA = "INSERT";
+	public static final String UPDATE_DATA = "UPDATE";
+	public static final String DELETE_DATA = "DELETE";
 
 }
