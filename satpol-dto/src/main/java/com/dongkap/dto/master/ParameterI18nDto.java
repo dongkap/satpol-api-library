@@ -16,6 +16,7 @@ public class ParameterI18nDto extends ParameterDto {
 	 * 
 	 */
 	private static final long serialVersionUID = -3113832689039097163L;
+	private String parameterI18nUUID;
 	private String parameterValue;
 	private String locale;
 
