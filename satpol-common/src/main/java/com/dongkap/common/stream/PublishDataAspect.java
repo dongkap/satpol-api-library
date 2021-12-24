@@ -20,7 +20,7 @@ import com.dongkap.dto.common.CommonStreamMessageDto;
 
 @Aspect
 @Component
-public class PublishMasterDataAspect {
+public class PublishDataAspect {
 
 	protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
