@@ -52,7 +52,7 @@ public class PublishDataAspect {
 				}
 		    }
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.warn(e.getMessage(), e);
 		}
     }
 
