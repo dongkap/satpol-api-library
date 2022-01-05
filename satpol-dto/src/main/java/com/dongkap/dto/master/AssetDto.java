@@ -22,9 +22,11 @@ public class AssetDto extends BaseAuditDto {
 	private static final long serialVersionUID = 8874124628846019913L;
 	private String id;
 	private String assetName;
-	private String assetCondition;
+	private String assetConditionCode;
+	private String assetConditionValue;
 	private Integer quantity;
 	private String description;
+	private String location;
 	private BusinessPartnerDto businessPartner;
 	private CorporateDto corporate;
 
