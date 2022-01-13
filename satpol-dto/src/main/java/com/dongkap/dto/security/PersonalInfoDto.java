@@ -27,5 +27,6 @@ public class PersonalInfoDto extends BaseAuditDto {
 	private String dateOfBirth;
 	private Double height;
 	private Double weight;
+	private String bloodType;
 
 }
