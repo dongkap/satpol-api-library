@@ -1,5 +1,8 @@
 package com.dongkap.dto.security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dongkap.dto.common.BaseAuditDto;
 
 import lombok.AllArgsConstructor;
@@ -22,9 +25,14 @@ public class EmployeeDto extends BaseAuditDto {
 	private String id;
 	private String idEmployee;
 	private String lastEducation;
-	private ProfileDto user;
-	private EmployeeDto parent;
+	private String username;
+	private String password;
+	private String fullname;
+	private String email;
+	private String image;
+	private String parentId;
 	private OccupationDto occupation;
 	private CorporateDto corporate;
+	private List<RoleDto> roles = new ArrayList<RoleDto>();
 
 }

@@ -13,16 +13,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class RoleDto extends BaseAuditDto {
+public class EducationDto extends BaseAuditDto {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8874124628846019913L;
+	private static final long serialVersionUID = -2442773369159964802L;
 	private String id;
-	private String authority;
-	private Integer level;
-	private String description;
-	private SystemAuthorityDto group;
+	private String educationalLevel;
+	private String schoolName;
+	private String degree;
+	private String study;
+	private String grade;
+	private int startYear;
+	private int endYear;
 
 }

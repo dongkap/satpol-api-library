@@ -34,6 +34,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 	private Date verificationExpired;
 	private String raw;
 	private String authorityDefault;
+	private String appCode;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes = new HashMap<String, Object>();
 
