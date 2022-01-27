@@ -20,6 +20,7 @@ public class EmployeePersonalInfoDto extends EmployeeDto {
 	private String idNumber;
 	private String phoneNumber;
 	private String address;
+	private String gender;
 	private String image;
 	private Double height;
 	private Double weight;
