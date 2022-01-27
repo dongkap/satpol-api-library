@@ -29,7 +29,6 @@ public class EmployeeDto extends BaseAuditDto {
 	private String password;
 	private String fullname;
 	private String email;
-	private String image;
 	private String parentId;
 	private OccupationDto occupation;
 	private CorporateDto corporate;
