@@ -17,13 +17,7 @@ public class EmployeePersonalInfoDto extends EmployeeDto {
 	 * 
 	 */
 	private static final long serialVersionUID = 8874124628846019913L;
-	private String idNumber;
-	private String phoneNumber;
-	private String address;
-	private String gender;
-	private String image;
-	private Double height;
-	private Double weight;
-	private String bloodType;
+	private ContactUserDto contact;
+	private PersonalInfoDto personalInfo;
 
 }
