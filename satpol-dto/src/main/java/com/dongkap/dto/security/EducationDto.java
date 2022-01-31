@@ -21,6 +21,7 @@ public class EducationDto extends BaseAuditDto {
 	private static final long serialVersionUID = -2442773369159964802L;
 	private String id;
 	private String educationalLevel;
+	private String educationalLevelCode;
 	private String schoolName;
 	private String degree;
 	private String study;
