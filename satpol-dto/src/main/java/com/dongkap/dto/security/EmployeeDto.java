@@ -31,6 +31,8 @@ public class EmployeeDto extends BaseAuditDto {
 	private String email;
 	private String image;
 	private String parentId;
+	private String parentLabel;
+	private String parentValue;
 	private OccupationDto occupation;
 	private CorporateDto corporate;
 	private List<RoleDto> roles = new ArrayList<RoleDto>();
