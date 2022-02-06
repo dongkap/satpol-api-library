@@ -8,5 +8,6 @@ public final class ParameterStatic {
 	public static final String INSERT_DATA = "INSERT";
 	public static final String UPDATE_DATA = "UPDATE";
 	public static final String DELETE_DATA = "DELETE";
+	public static final String NOTIFICATION = "NOTIFICATION";
 
 }

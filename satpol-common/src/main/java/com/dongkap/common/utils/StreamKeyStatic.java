@@ -8,5 +8,6 @@ public final class StreamKeyStatic {
 	public static final String OCCUPATION = "key:occupations";
 	public static final String BUSINESS_PARTNER = "key:business_partner";
 	public static final String ASSET = "key:assets";
+	public static final String FORGOT_PASSWORD = "key:forgot_password";
 
 }
