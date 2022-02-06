@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,6 +101,23 @@ public class BaseControllerException {
 		baseResponse.setRespStatusMessage(respStatusMessage);
 		return new ResponseEntity<ApiBaseResponse>(baseResponse,
 				ErrorCode.ERR_SYS0404.getStatus());
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ApiBaseResponse> handleConstraintException(HttpServletRequest request, DataIntegrityViolationException exception) {
+		stackTrace(exception);
+		
+		Locale locale = Locale.getDefault();
+		String acceptLanguage = request.getHeader(HttpHeaders.ACCEPT_LANGUAGE);
+		if(acceptLanguage != null)
+			locale = Locale.forLanguageTag(acceptLanguage);
+		Map<String, String> respStatusMessage = new HashMap<String, String>();
+		respStatusMessage.put(ErrorCode.ERR_SCR0010.name(), this.errorDescriptionResponse(ErrorCode.ERR_SCR0010, locale));
+		ApiBaseResponse baseResponse = new ApiBaseResponse();
+		baseResponse.setRespStatusCode(ErrorCode.ERR_SCR0010.name());
+		baseResponse.setRespStatusMessage(respStatusMessage);
+		return new ResponseEntity<ApiBaseResponse>(baseResponse,
+				ErrorCode.ERR_SCR0010.getStatus());
 	}
 	
 	@ExceptionHandler(NoSuchAlgorithmException.class)
