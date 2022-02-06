@@ -32,6 +32,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 	private String provider = "ldap";
 	private String verificationCode;
 	private Date verificationExpired;
+	private String activateCode;
+	private Date activateExpired;
 	private String raw;
 	private String authorityDefault;
 	private String appCode;
