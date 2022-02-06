@@ -12,5 +12,6 @@ public @interface PublishStream {
 
 	String key();
 	String status();
+	String locale() default "id-ID";
 
 }

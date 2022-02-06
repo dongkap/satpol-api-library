@@ -37,10 +37,11 @@ public class PublishDataAspect {
 		        final MethodSignature ms = (MethodSignature) signature;
 		        final Method method = ms.getMethod();
 				String streamKey = method.getAnnotation(PublishStream.class).key();
-				String status = method.getAnnotation(PublishStream.class).status();				
+				String status = method.getAnnotation(PublishStream.class).status();
+				String locale = method.getAnnotation(PublishStream.class).locale();
 				if(datas != null) {
 					if(datas.size() > 0) {
-						CommonStreamMessageDto message = new CommonStreamMessageDto(streamKey, status, datas);
+						CommonStreamMessageDto message = new CommonStreamMessageDto(streamKey, status, locale, datas);
 						ObjectRecord<String, CommonStreamMessageDto> record = StreamRecords.newRecord()
 								.in(streamKey)
 		                        .ofObject(message);

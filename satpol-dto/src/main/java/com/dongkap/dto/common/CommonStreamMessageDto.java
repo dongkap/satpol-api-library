@@ -23,6 +23,7 @@ public class CommonStreamMessageDto implements Serializable {
 	private static final long serialVersionUID = -5084710113051457542L;
 	private String topic;
 	private String status;
+	private String locale;
 	private List<Object> datas = new ArrayList<Object>();
 
 }
