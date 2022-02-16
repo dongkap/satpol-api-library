@@ -1,6 +1,5 @@
 package com.dongkap.dto.common;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,38 +15,35 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
-public class BaseAuditDto implements Serializable {
+public class BaseApprovalDto extends BaseAuditDto {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1183080114772374130L;
-	protected int version;
-	protected String active;
+	private Boolean autoApproved;
+	private String approved;
+	private String approvedBy;
 	@JsonFormat(pattern="dd/MM/yyyy")
-	protected Date createdDate;
-	protected String createdBy;
-	@JsonFormat(pattern="dd/MM/yyyy")
-	protected Date modifiedDate;
-	protected String modifiedBy;
+	protected Date approvedDate;
 
-	@JsonProperty("active")
-	public String getActive() {
-		return this.active;
+	@JsonProperty("approved")
+	public String getApproved() {
+		return this.approved;
 	}
 
-	public void setActive(String active) {
-		this.active = active;
+	public void setApproved(String approved) {
+		this.approved = approved;
 	}
 
 	@JsonIgnore
-	public void setActive(Boolean active) {
-		if(active)
-			this.active = "Active";
+	public void setApproved(Boolean approved) {
+		if(approved)
+			this.approved = "Approved";
 		else
-			this.active = "Deactivated";
+			this.approved = "Not Approved";
 	}
 
 }
