@@ -29,21 +29,25 @@ jobs:
     - name: Delete Package root-library
       uses: actions/delete-package-versions@v2.0.1
       with:
+        package-version-ids: ''
         package-name: 'com.dongkap.root-library'
         token: ${{ github.token }}
     - name: Delete Package satpol-dto
       uses: actions/delete-package-versions@v2.0.1
       with:
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-dto'
         token: ${{ github.token }}
     - name: Delete Package satpol-common
       uses: actions/delete-package-versions@v2.0.1
       with:
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-common'
         token: ${{ github.token }}
     - name: Delete Package satpol-feign
       uses: actions/delete-package-versions@v2.0.1
       with:
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-feign'
         token: ${{ github.token }}
     - name: Publish to GitHub Packages
