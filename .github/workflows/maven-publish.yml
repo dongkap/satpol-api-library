@@ -31,6 +31,7 @@ jobs:
       with:
         owner: 'dongkap'
         repo: 'satpol-api-library'
+        package-version-ids: ''
         package-name: 'com.dongkap.root-library'
         token: ${{ github.token }}
     - name: Delete Package satpol-dto
@@ -38,6 +39,7 @@ jobs:
       with:
         owner: 'dongkap'
         repo: 'satpol-api-library'
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-dto'
         token: ${{ github.token }}
     - name: Delete Package satpol-common
@@ -45,6 +47,7 @@ jobs:
       with:
         owner: 'dongkap'
         repo: 'satpol-api-library'
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-common'
         token: ${{ github.token }}
     - name: Delete Package satpol-feign
@@ -52,6 +55,7 @@ jobs:
       with:
         owner: 'dongkap'
         repo: 'satpol-api-library'
+        package-version-ids: ''
         package-name: 'com.dongkap.satpol-feign'
         token: ${{ github.token }}
     - name: Publish to GitHub Packages
