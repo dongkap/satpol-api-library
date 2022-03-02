@@ -27,19 +27,19 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Delete Package root-library
-      uses: actions/delete-package-versions@v1.0.3
+      uses: actions/delete-package-versions@v2
       with:
         package-name: 'com.dongkap.root-library'
     - name: Delete Package satpol-dto
-      uses: actions/delete-package-versions@v1.0.3
+      uses: actions/delete-package-versions@v2
       with:
         package-name: 'com.dongkap.satpol-dto'
     - name: Delete Package satpol-common
-      uses: actions/delete-package-versions@v1.0.3
+      uses: actions/delete-package-versions@v2
       with:
         package-name: 'com.dongkap.satpol-common'
     - name: Delete Package satpol-feign
-      uses: actions/delete-package-versions@v1.0.3
+      uses: actions/delete-package-versions@v2
       with:
         package-name: 'com.dongkap.satpol-feign'
     - name: Publish to GitHub Packages
