@@ -27,25 +27,33 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Delete Package root-library
-      uses: smartsquaregmbh/delete-old-packages@v0.4.0
+      uses: actions/delete-package-versions@v2.0.1
       with:
-        names: |
-          com.dongkap.root-library
+        owner: 'dongkap'
+        repo: 'satpol-api-library'
+        package-name: 'com.dongkap.root-library'
+        token: ${{ github.token }}
     - name: Delete Package satpol-dto
-      uses: smartsquaregmbh/delete-old-packages@v0.4.0
+      uses: actions/delete-package-versions@v2.0.1
       with:
-        names: |
-          com.dongkap.satpol-dto
+        owner: 'dongkap'
+        repo: 'satpol-api-library'
+        package-name: 'com.dongkap.satpol-dto'
+        token: ${{ github.token }}
     - name: Delete Package satpol-common
-      uses: smartsquaregmbh/delete-old-packages@v0.4.0
+      uses: actions/delete-package-versions@v2.0.1
       with:
-        names: |
-          com.dongkap.satpol-common
+        owner: 'dongkap'
+        repo: 'satpol-api-library'
+        package-name: 'com.dongkap.satpol-common'
+        token: ${{ github.token }}
     - name: Delete Package satpol-feign
       uses: actions/delete-package-versions@v2.0.1
       with:
-        names: |
-          com.dongkap.satpol-feign
+        owner: 'dongkap'
+        repo: 'satpol-api-library'
+        package-name: 'com.dongkap.satpol-feign'
+        token: ${{ github.token }}
     - name: Publish to GitHub Packages
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
