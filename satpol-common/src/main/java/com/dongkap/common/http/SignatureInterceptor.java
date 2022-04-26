@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -76,48 +75,48 @@ public class SignatureInterceptor extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-	    if (request.getDispatcherType() == DispatcherType.ASYNC) {
-	        String hashMessage = "";
-	        
-	        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) &&
-	    		StringUtils.containsIgnoreCase(request.getHeader("Authorization"), "bearer")) {
-	        	try {
-	        		if(request.getHeader(this.paramKey) == null
-	        				&& request.getHeader(this.paramTimestamp) == null
-	        				&& request.getHeader(this.paramSignature) == null)
-	    				throw new SystemErrorException(ErrorCode.ERR_UNAUTHORIZED);
-	            	if(!request.getHeader(this.paramKey).equals(publicKey))
-	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPKEY);
-	            	try {
-	            		setDatenow(DateUtil.formatDate(new Date(Long.valueOf(request.getHeader(this.paramTimestamp)) * 1000), DateUtil.DEFAULT_FORMAT_DATE));
-	    			} catch (Exception e) {
-	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPTIMESTAMP);
-	    			}
-	        		message = 	request.getHeader(this.paramKey) + ":" + 
-								request.getHeader(this.paramTimestamp) + ":" +
-								request.getRequestURI()  + ":" +
-								request.getHeader("Authorization").replaceAll("(?i)bearer ", "");
-	        		hashMessage = SignatureEncrypt.getInstance().hash(this.privateKey, message);
-	        		if(!hashMessage.equals(request.getHeader(this.paramSignature)))
-	    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPSIGNATURE);
-	        		filterChain.doFilter(request, response);
-				} catch (SystemErrorException e) {
-					LOGGER.error("Plain Text Signature : {}", message);
-					LOGGER.error("Signature Header : {} , Signature Server : {}", request.getHeader(this.paramSignature), hashMessage);
-					response.getWriter().write(unauthorized(e.getErrorCode(), request));
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				} catch (Exception e) {
-					LOGGER.error("Signature Header : {} , Exception : {}", request.getHeader(this.paramSignature), e);
-					response.getWriter().write(unauthorized(ErrorCode.ERR_UNAUTHORIZED, request));
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				}
-	        }else
-	        	filterChain.doFilter(request, response);
-	    } else {
+	    // if (request.getDispatcherType() == DispatcherType.ASYNC) {
+        String hashMessage = "";
+        
+        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) &&
+    		StringUtils.containsIgnoreCase(request.getHeader("Authorization"), "bearer")) {
+        	try {
+        		if(request.getHeader(this.paramKey) == null
+        				&& request.getHeader(this.paramTimestamp) == null
+        				&& request.getHeader(this.paramSignature) == null)
+    				throw new SystemErrorException(ErrorCode.ERR_UNAUTHORIZED);
+            	if(!request.getHeader(this.paramKey).equals(publicKey))
+    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPKEY);
+            	try {
+            		setDatenow(DateUtil.formatDate(new Date(Long.valueOf(request.getHeader(this.paramTimestamp)) * 1000), DateUtil.DEFAULT_FORMAT_DATE));
+    			} catch (Exception e) {
+    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPTIMESTAMP);
+    			}
+        		message = 	request.getHeader(this.paramKey) + ":" + 
+							request.getHeader(this.paramTimestamp) + ":" +
+							request.getRequestURI()  + ":" +
+							request.getHeader("Authorization").replaceAll("(?i)bearer ", "");
+        		hashMessage = SignatureEncrypt.getInstance().hash(this.privateKey, message);
+        		if(!hashMessage.equals(request.getHeader(this.paramSignature)))
+    				throw new SystemErrorException(ErrorCode.ERR_XDONGKAPSIGNATURE);
+        		filterChain.doFilter(request, response);
+			} catch (SystemErrorException e) {
+				LOGGER.error("Plain Text Signature : {}", message);
+				LOGGER.error("Signature Header : {} , Signature Server : {}", request.getHeader(this.paramSignature), hashMessage);
+				response.getWriter().write(unauthorized(e.getErrorCode(), request));
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			} catch (Exception e) {
+				LOGGER.error("Signature Header : {} , Exception : {}", request.getHeader(this.paramSignature), e);
+				response.getWriter().write(unauthorized(ErrorCode.ERR_UNAUTHORIZED, request));
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			}
+        }else
+        	filterChain.doFilter(request, response);
+	    /*} else {
 	        super.doFilter(request, response, filterChain);
-	    }
+	    }*/
     }
 
     @Override
